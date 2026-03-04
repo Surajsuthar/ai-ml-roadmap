@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image & Video Generation AI — Complete Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050810;
+    --surface: #0d1117;
+    --surface2: #161b27;
+    --border: #1e2637;
+    --accent1: #6ee7f7;
+    --accent2: #a78bfa;
+    --accent3: #f472b6;
+    --accent4: #34d399;
+    --accent5: #fbbf24;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --glow1: rgba(110,231,247,0.15);
+    --glow2: rgba(167,139,250,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 20%, rgba(110,231,247,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 60% at 80% 80%, rgba(167,139,250,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(244,114,182,0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent1);
+    border: 1px solid rgba(110,231,247,0.3);
+    padding: 4px 14px;
+    border-radius: 100px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    background: rgba(110,231,247,0.05);
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 40%, var(--accent3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 18px;
+    max-width: 580px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent1);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* PROGRESS TRACKER */
+  .progress-bar-section {
+    padding: 0 0 60px;
+  }
+
+  .phase-nav {
+    display: flex;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .phase-tab {
+    flex: 1;
+    padding: 14px 8px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-right: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .phase-tab:last-child { border-right: none; }
+  .phase-tab:hover { color: var(--text); background: var(--surface2); }
+
+  .phase-tab.p1 { border-top: 3px solid var(--accent4); }
+  .phase-tab.p2 { border-top: 3px solid var(--accent1); }
+  .phase-tab.p3 { border-top: 3px solid var(--accent2); }
+  .phase-tab.p4 { border-top: 3px solid var(--accent3); }
+  .phase-tab.p5 { border-top: 3px solid var(--accent5); }
+
+  /* PHASE SECTIONS */
+  .phase {
+    margin-bottom: 60px;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phase-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+  }
+
+  .phase-1 .phase-header { border-left: 4px solid var(--accent4); }
+  .phase-1 .phase-header::before { background: var(--accent4); }
+  .phase-2 .phase-header { border-left: 4px solid var(--accent1); }
+  .phase-2 .phase-header::before { background: var(--accent1); }
+  .phase-3 .phase-header { border-left: 4px solid var(--accent2); }
+  .phase-3 .phase-header::before { background: var(--accent2); }
+  .phase-4 .phase-header { border-left: 4px solid var(--accent3); }
+  .phase-4 .phase-header::before { background: var(--accent3); }
+  .phase-5 .phase-header { border-left: 4px solid var(--accent5); }
+  .phase-5 .phase-header::before { background: var(--accent5); }
+
+  .phase-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .phase-1 .phase-num { background: rgba(52,211,153,0.15); color: var(--accent4); }
+  .phase-2 .phase-num { background: rgba(110,231,247,0.15); color: var(--accent1); }
+  .phase-3 .phase-num { background: rgba(167,139,250,0.15); color: var(--accent2); }
+  .phase-4 .phase-num { background: rgba(244,114,182,0.15); color: var(--accent3); }
+  .phase-5 .phase-num { background: rgba(251,191,36,0.15); color: var(--accent5); }
+
+  .phase-header-text h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .phase-header-text .duration {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .phase-header-text p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  /* TOPIC CARDS */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .topic-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .topic-card:hover {
+    border-color: var(--accent2);
+    transform: translateY(-2px);
+  }
+
+  .topic-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .topic-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .topic-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .topic-body {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  /* Resources inside card */
+  .resources {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .resource {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+
+  .resource:hover { border-color: var(--accent1); color: var(--accent1); }
+
+  .resource-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  .rt-course { background: rgba(52,211,153,0.15); color: var(--accent4); }
+  .rt-paper { background: rgba(167,139,250,0.15); color: var(--accent2); }
+  .rt-book  { background: rgba(110,231,247,0.15); color: var(--accent1); }
+  .rt-video { background: rgba(244,114,182,0.15); color: var(--accent3); }
+  .rt-repo  { background: rgba(251,191,36,0.15); color: var(--accent5); }
+  .rt-blog  { background: rgba(110,231,247,0.1); color: #94a3b8; }
+
+  .resource-name { flex: 1; line-height: 1.3; }
+
+  /* PAPER DEEP DIVE */
+  .paper-section {
+    margin-bottom: 60px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+
+  .section-subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .paper-timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+
+  .paper-timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent1), var(--accent2), var(--accent3));
+  }
+
+  .paper-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.2s;
+  }
+
+  .paper-item:hover { border-color: var(--accent2); }
+
+  .paper-item::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 22px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--accent1);
+    background: var(--bg);
+  }
+
+  .paper-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+
+  .paper-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent1);
+    background: rgba(110,231,247,0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .paper-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .pt-foundational { background: rgba(52,211,153,0.1); color: var(--accent4); }
+  .pt-diffusion { background: rgba(167,139,250,0.1); color: var(--accent2); }
+  .pt-gan { background: rgba(244,114,182,0.1); color: var(--accent3); }
+  .pt-video { background: rgba(251,191,36,0.1); color: var(--accent5); }
+  .pt-attention { background: rgba(110,231,247,0.1); color: var(--accent1); }
+
+  .paper-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .paper-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .paper-why {
+    font-size: 12px;
+    color: var(--text);
+    background: var(--surface2);
+    border-left: 3px solid var(--accent2);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 10px;
+  }
+
+  .paper-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent1);
+    text-decoration: none;
+    border: 1px solid rgba(110,231,247,0.3);
+    padding: 4px 10px;
+    border-radius: 5px;
+    transition: all 0.2s;
+  }
+
+  .paper-link:hover { background: rgba(110,231,247,0.1); }
+
+  /* PROJECTS */
+  .projects-section {
+    margin-bottom: 60px;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 14px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: start;
+    transition: border-color 0.2s;
+  }
+
+  .project-card:hover { border-color: var(--accent3); }
+
+  .proj-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+    padding-top: 4px;
+  }
+
+  .proj-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .proj-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .proj-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .proj-tag {
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .proj-difficulty {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    height: fit-content;
+  }
+
+  .diff-beginner { background: rgba(52,211,153,0.1); color: var(--accent4); border: 1px solid rgba(52,211,153,0.2); }
+  .diff-intermediate { background: rgba(110,231,247,0.1); color: var(--accent1); border: 1px solid rgba(110,231,247,0.2); }
+  .diff-advanced { background: rgba(167,139,250,0.1); color: var(--accent2); border: 1px solid rgba(167,139,250,0.2); }
+  .diff-expert { background: rgba(244,114,182,0.1); color: var(--accent3); border: 1px solid rgba(244,114,182,0.2); }
+
+  /* TOOLS TABLE */
+  .tools-section { margin-bottom: 60px; }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .tool-card:hover { border-color: var(--accent1); transform: translateY(-2px); }
+
+  .tool-emoji { font-size: 28px; margin-bottom: 8px; }
+
+  .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .tool-desc { font-size: 11px; color: var(--muted); }
+
+  /* TIP BOXES */
+  .tip-box {
+    background: rgba(110,231,247,0.05);
+    border: 1px solid rgba(110,231,247,0.2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+
+  .tip-box strong {
+    color: var(--accent1);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    display: block;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 48px 0;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 48px 0;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  @media (max-width: 640px) {
+    .phase-nav { flex-direction: column; }
+    .topics-grid { grid-template-columns: 1fr; }
+    .project-card { grid-template-columns: 1fr; }
+    .proj-difficulty { width: fit-content; }
+    .hero-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">Zero to Research-Level</div>
+    <h1>Image & Video<br>Generation AI</h1>
+    <p>A complete, structured roadmap from absolute beginner to building your own generative models — with every paper, course, and project you need.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Phases</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12–18</div>
+        <div class="stat-label">Months</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">Key Papers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">20+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE NAV -->
+  <div class="phase-nav">
+    <div class="phase-tab p1">Phase 1<br>Foundations</div>
+    <div class="phase-tab p2">Phase 2<br>Deep Learning</div>
+    <div class="phase-tab p3">Phase 3<br>Generative</div>
+    <div class="phase-tab p4">Phase 4<br>Diffusion</div>
+    <div class="phase-tab p5">Phase 5<br>Advanced</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ===== PHASE 1 ===== -->
+  <section class="phase phase-1">
+    <div class="phase-header">
+      <div class="phase-num">PHASE 01</div>
+      <div class="phase-header-text">
+        <h2>🌱 Foundations</h2>
+        <div class="duration">⏱ Estimated time: 6–8 weeks</div>
+        <p>Build the math and programming bedrock. Everything else depends on this. Don't skip it.</p>
+      </div>
+    </div>
+
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🐍</div>
+          <div class="topic-title">Python Programming</div>
+        </div>
+        <div class="topic-body">Learn Python syntax, NumPy for arrays, Matplotlib for plotting, and Jupyter notebooks. This is your coding language for everything.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">CS50P – Harvard Python (free on edX)</span></div>
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">fast.ai Practical Deep Learning – setup chapters</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Corey Schafer Python YouTube series</span></div>
+          <div class="resource"><span class="resource-type rt-book">Book</span><span class="resource-name">Python Crash Course – Eric Matthes</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">📐</div>
+          <div class="topic-title">Linear Algebra</div>
+        </div>
+        <div class="topic-body">Vectors, matrices, matrix multiplication, dot products, eigenvalues. Neural networks are literally just matrix math.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">3Blue1Brown – Essence of Linear Algebra (YouTube)</span></div>
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">MIT 18.06 Gilbert Strang (free OCW)</span></div>
+          <div class="resource"><span class="resource-type rt-book">Book</span><span class="resource-name">Mathematics for Machine Learning – Cambridge (free PDF)</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">📊</div>
+          <div class="topic-title">Calculus & Probability</div>
+        </div>
+        <div class="topic-body">Derivatives, chain rule (backprop!), partial derivatives. Probability distributions, Bayes theorem, Gaussian — used constantly in generative models.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">3Blue1Brown – Essence of Calculus (YouTube)</span></div>
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">Khan Academy – Probability & Statistics (free)</span></div>
+          <div class="resource"><span class="resource-type rt-book">Book</span><span class="resource-name">Deep Learning Book Ch. 3 – Goodfellow (free online)</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🤖</div>
+          <div class="topic-title">Classic Machine Learning</div>
+        </div>
+        <div class="topic-body">Linear regression, logistic regression, decision trees, SVMs, overfitting, train/val/test splits. Understanding this prevents tons of confusion later.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">Andrew Ng – ML Specialization (Coursera, audit free)</span></div>
+          <div class="resource"><span class="resource-type rt-book">Book</span><span class="resource-name">Hands-On ML with Scikit-Learn & TF – Aurélien Géron</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">scikit-learn documentation + examples</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 Beginner Tip</strong>
+      Don't try to master everything here before moving on. Get 70-80% comfortable, then proceed. You'll revisit these concepts dozens of times as you build things — that's when it actually sticks.
+    </div>
+  </section>
+
+  <!-- ===== PHASE 2 ===== -->
+  <section class="phase phase-2">
+    <div class="phase-header">
+      <div class="phase-num">PHASE 02</div>
+      <div class="phase-header-text">
+        <h2>🧠 Deep Learning Core</h2>
+        <div class="duration">⏱ Estimated time: 8–10 weeks</div>
+        <p>Neural networks, CNNs, and the frameworks that power every model you'll ever train.</p>
+      </div>
+    </div>
+
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🔗</div>
+          <div class="topic-title">Neural Networks from Scratch</div>
+        </div>
+        <div class="topic-body">Forward pass, loss functions, backpropagation, gradient descent. Build a neural net in pure NumPy — painful but deeply educational.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Andrej Karpathy – Neural Networks Zero to Hero (YouTube)</span></div>
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">fast.ai Part 1 – Practical Deep Learning (free)</span></div>
+          <div class="resource"><span class="resource-type rt-book">Book</span><span class="resource-name">Deep Learning – Goodfellow, Bengio, Courville (free online)</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">3Blue1Brown – Neural Networks series</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🖼️</div>
+          <div class="topic-title">Convolutional Neural Networks (CNNs)</div>
+        </div>
+        <div class="topic-body">Convolutions, pooling, feature maps, ResNet, VGG. CNNs are the backbone of almost all image generation architectures. Must know thoroughly.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">Stanford CS231n – CNNs for Visual Recognition (free notes + videos)</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Deep Residual Learning (ResNet) – He et al., 2015</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Yannic Kilcher – ResNet paper walkthrough</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🔥</div>
+          <div class="topic-title">PyTorch Framework</div>
+        </div>
+        <div class="topic-body">Tensors, autograd, datasets, dataloaders, training loops, GPU usage. PyTorch is the standard for research. Learn it well.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">Official PyTorch Tutorials (pytorch.org)</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Patrick Loeber – PyTorch for Deep Learning (YouTube)</span></div>
+          <div class="resource"><span class="resource-type rt-book">Book</span><span class="resource-name">Deep Learning with PyTorch – Eli Stevens (free online)</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">pytorch/examples on GitHub</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🔀</div>
+          <div class="topic-title">Attention & Transformers</div>
+        </div>
+        <div class="topic-body">Self-attention, multi-head attention, positional encoding, ViT (Vision Transformer). Transformers now dominate generative AI — understand them deeply.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Attention Is All You Need – Vaswani et al., 2017</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">The Illustrated Transformer – Jay Alammar</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Andrej Karpathy – Let's build GPT from scratch</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">An Image is Worth 16x16 Words (ViT) – Dosovitskiy, 2020</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🏋️</div>
+          <div class="topic-title">Training Best Practices</div>
+        </div>
+        <div class="topic-body">Batch normalization, dropout, learning rate schedules, mixed precision (fp16), gradient clipping, wandb/TensorBoard logging.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">Andrej Karpathy – A Recipe for Training Neural Networks</span></div>
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">fast.ai Part 2 – Deep Learning from the Foundations</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">wandb.ai tutorials on experiment tracking</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🔣</div>
+          <div class="topic-title">Autoencoders & Latent Spaces</div>
+        </div>
+        <div class="topic-body">Encoders, decoders, bottleneck representations. The concept of "latent space" is central to VAEs, GANs, and diffusion models.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Serrano Academy – Autoencoders explained (YouTube)</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Auto-Encoding Variational Bayes (VAE) – Kingma & Welling, 2013</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">Understanding VAEs – Lilian Weng (lilianweng.github.io)</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== PHASE 3 ===== -->
+  <section class="phase phase-3">
+    <div class="phase-header">
+      <div class="phase-num">PHASE 03</div>
+      <div class="phase-header-text">
+        <h2>🎨 Generative Models</h2>
+        <div class="duration">⏱ Estimated time: 8–10 weeks</div>
+        <p>Now the fun begins. GANs, VAEs, flow models — learn how machines learn to generate images.</p>
+      </div>
+    </div>
+
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">⚔️</div>
+          <div class="topic-title">GANs — Generative Adversarial Networks</div>
+        </div>
+        <div class="topic-body">Generator vs discriminator, adversarial loss, mode collapse, training instability. The architecture that started the modern image generation era.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Generative Adversarial Nets – Goodfellow et al., 2014</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">DCGAN – Radford et al., 2015</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Ari Seff – GAN lecture (YouTube)</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">GAN — Lilian Weng's comprehensive overview</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🌀</div>
+          <div class="topic-title">Advanced GANs</div>
+        </div>
+        <div class="topic-body">Progressive growing, StyleGAN's W-space, conditional generation, image-to-image translation. Understanding these makes diffusion models click faster.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Progressive Growing of GANs – Karras et al., 2017</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">A Style-Based Generator (StyleGAN) – Karras et al., 2018</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Pix2Pix – Isola et al., 2016</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">CycleGAN – Zhu et al., 2017</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🧮</div>
+          <div class="topic-title">Variational Autoencoders (VAEs)</div>
+        </div>
+        <div class="topic-body">ELBO loss, reparameterization trick, KL divergence, structured latent spaces. VAEs underpin the latent space in Stable Diffusion's design.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Auto-Encoding Variational Bayes – Kingma & Welling, 2013</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">AladdinPersson – VAE from scratch in PyTorch (YouTube)</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">From Autoencoder to Beta-VAE – Lilian Weng</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🌊</div>
+          <div class="topic-title">Normalizing Flows</div>
+        </div>
+        <div class="topic-body">Invertible transformations, exact likelihood, GLOW, RealNVP. Not used as widely anymore but builds critical intuition for probability-based generation.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Glow – Kingma & Dhariwal, 2018</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">Flow-based Deep Generative Models – Lilian Weng</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Pieter Abbeel – Flow Models lecture (Berkeley)</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">📎</div>
+          <div class="topic-title">CLIP — Connecting Text & Images</div>
+        </div>
+        <div class="topic-body">Contrastive learning, text-image alignment, zero-shot classification. CLIP is what gives Stable Diffusion and DALL·E their text understanding.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Learning Transferable Visual Models from Natural Language (CLIP) – Radford et al., 2021</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Yannic Kilcher – CLIP paper walkthrough</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">openai/CLIP on GitHub</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== PHASE 4 ===== -->
+  <section class="phase phase-4">
+    <div class="phase-header">
+      <div class="phase-num">PHASE 04</div>
+      <div class="phase-header-text">
+        <h2>✨ Diffusion Models — The State of the Art</h2>
+        <div class="duration">⏱ Estimated time: 10–12 weeks</div>
+        <p>The dominant paradigm for image and video generation. Stable Diffusion, DALL·E, Sora — all diffusion-based.</p>
+      </div>
+    </div>
+
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">❄️</div>
+          <div class="topic-title">Diffusion Fundamentals</div>
+        </div>
+        <div class="topic-body">Forward noising process, reverse denoising, Markov chains, score matching, noise schedules. The mathematical heart of everything modern.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">DDPM – Ho et al., 2020 (the paper that started it)</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">What are Diffusion Models? – Lilian Weng</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Outlier – Diffusion Models Explained (YouTube)</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">The Annotated Diffusion Model – Hugging Face</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🏎️</div>
+          <div class="topic-title">Faster Sampling — DDIM, PNDM</div>
+        </div>
+        <div class="topic-body">DDPM is slow (1000 steps). DDIM enables 50-step generation with deterministic sampling. Understanding samplers lets you tune quality vs speed.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">DDIM – Song et al., 2020</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">PNDM – Liu et al., 2022</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">Hugging Face Diffusers – Schedulers docs</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🗜️</div>
+          <div class="topic-title">Latent Diffusion (Stable Diffusion)</div>
+        </div>
+        <div class="topic-body">Compress images into latent space first (VAE), then diffuse there. This is exactly how Stable Diffusion works — 8x more efficient than pixel-space diffusion.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">High-Resolution Image Synthesis with LDMs – Rombach et al., 2022</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">CompVis/stable-diffusion on GitHub</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Tanishq Abraham – Stable Diffusion deep dive (YouTube)</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🎯</div>
+          <div class="topic-title">Guidance: Classifier & CFG</div>
+        </div>
+        <div class="topic-body">Classifier guidance, classifier-free guidance (CFG), guidance scale. This is how you steer generation toward your text prompt. Critical for text-to-image.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Diffusion Models Beat GANs – Dhariwal & Nichol, 2021</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Classifier-Free Diffusion Guidance – Ho & Salimans, 2021</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">CFG explained – Hugging Face blog</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🎛️</div>
+          <div class="topic-title">ControlNet & Conditioning</div>
+        </div>
+        <div class="topic-body">Add spatial conditioning (edges, depth, pose) to diffusion models. Enables precise control over composition — huge in creative applications.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Adding Conditional Control to Text-to-Image Diffusion (ControlNet) – Zhang et al., 2023</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">lllyasviel/ControlNet on GitHub</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Yannic Kilcher – ControlNet walkthrough</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🔧</div>
+          <div class="topic-title">Fine-tuning: LoRA & DreamBooth</div>
+        </div>
+        <div class="topic-body">Personalize pre-trained models with a few images. LoRA is parameter-efficient; DreamBooth teaches a model a new concept (your face, an object, a style).</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">DreamBooth – Ruiz et al., 2022</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">LoRA – Hu et al., 2021</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">huggingface/diffusers training examples</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🎬</div>
+          <div class="topic-title">Video Generation — Fundamentals</div>
+        </div>
+        <div class="topic-body">Temporal consistency, 3D U-Nets, video diffusion, optical flow. Extending image generation to video is the current research frontier.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Video Diffusion Models – Ho et al., 2022</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Imagen Video – Ho et al., 2022</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Make-A-Video – Singer et al., 2022 (Meta)</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Align Your Latents – Blattmann et al., 2023</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🌐</div>
+          <div class="topic-title">Hugging Face Ecosystem</div>
+        </div>
+        <div class="topic-body">diffusers library, transformers, model hub, pipelines, training scripts. Hugging Face is how you actually build with these models in practice.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-course">Course</span><span class="resource-name">Hugging Face Diffusion Models Course (free)</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">huggingface/diffusers (official library)</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">Hugging Face Blog – new posts weekly</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tip-box">
+      <strong>⚡ Key Insight</strong>
+      Diffusion models do one thing: predict and remove noise. Everything else — guidance, ControlNet, video, LoRA — is built on top of this single idea. Truly understanding DDPM makes all of Phase 4 much easier.
+    </div>
+  </section>
+
+  <!-- ===== PHASE 5 ===== -->
+  <section class="phase phase-5">
+    <div class="phase-header">
+      <div class="phase-num">PHASE 05</div>
+      <div class="phase-header-text">
+        <h2>🚀 Advanced & Research Level</h2>
+        <div class="duration">⏱ Estimated time: Ongoing</div>
+        <p>Cutting-edge architectures, video models like Sora, consistency models, and reading live research. This is where you contribute.</p>
+      </div>
+    </div>
+
+    <div class="topics-grid">
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">⚡</div>
+          <div class="topic-title">Consistency Models & Flow Matching</div>
+        </div>
+        <div class="topic-body">1-step generation, consistency training, rectified flow. The next evolution beyond DDPM — dramatically faster and newer research direction.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Consistency Models – Song et al., 2023</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Flow Matching for Generative Modeling – Lipman et al., 2022</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Stable Diffusion 3 (MM-DiT) – Esser et al., 2024</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🧊</div>
+          <div class="topic-title">DiT — Diffusion Transformers</div>
+        </div>
+        <div class="topic-body">Replace U-Net with Transformers in diffusion. DiT is the architecture behind Sora, SD3, and most frontier video models. The current dominant architecture.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Scalable Diffusion Models with Transformers (DiT) – Peebles & Xie, 2022</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Yannic Kilcher – DiT walkthrough</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">facebookresearch/DiT on GitHub</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🎞️</div>
+          <div class="topic-title">Sora & Long Video Generation</div>
+        </div>
+        <div class="topic-body">Video patches (spacetime tokens), world simulation, temporal coherence at scale. Understanding Sora's architecture (video DiT + patches) is frontier knowledge.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">Sora Technical Report – OpenAI, 2024</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">Sora: First principles analysis – various (arXiv blog)</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">CogVideoX – ZHIPU AI, 2024 (open-source Sora alternative)</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">🏅</div>
+          <div class="topic-title">RLHF & Alignment for Generation</div>
+        </div>
+        <div class="topic-body">Reinforcement learning from human feedback applied to image models. InstructPix2Pix, reward models for aesthetics — how models learn human preferences.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">InstructPix2Pix – Brooks et al., 2022</span></div>
+          <div class="resource"><span class="resource-type rt-paper">Paper</span><span class="resource-name">ImageReward – Xu et al., 2023</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">RLHF for diffusion – Hugging Face blog</span></div>
+        </div>
+      </div>
+
+      <div class="topic-card">
+        <div class="topic-card-header">
+          <div class="topic-icon">📡</div>
+          <div class="topic-title">Keep Up With Research</div>
+        </div>
+        <div class="topic-body">The field moves incredibly fast. arXiv daily reading, Twitter/X ML community, Papers With Code — staying current is a skill in itself.</div>
+        <div class="resources">
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">arxiv.org/list/cs.CV/recent (daily)</span></div>
+          <div class="resource"><span class="resource-type rt-repo">Repo</span><span class="resource-name">paperswithcode.com/sota/image-generation</span></div>
+          <div class="resource"><span class="resource-type rt-video">Video</span><span class="resource-name">Yannic Kilcher YouTube – weekly paper reviews</span></div>
+          <div class="resource"><span class="resource-type rt-blog">Blog</span><span class="resource-name">The Batch – DeepLearning.AI newsletter</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PAPER TIMELINE -->
+  <section class="paper-section">
+    <h2 class="section-title">📚 Essential Papers — In Order</h2>
+    <p class="section-subtitle">// Read these in sequence. Each one builds on the last.</p>
+
+    <div class="paper-timeline">
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2014</span>
+          <span class="paper-tag pt-foundational">Foundational</span>
+          <span class="paper-tag pt-gan">GAN</span>
+        </div>
+        <div class="paper-name">Generative Adversarial Nets — Goodfellow et al.</div>
+        <div class="paper-desc">The paper that introduced GANs. Two networks compete: a generator that creates images and a discriminator that judges them.</div>
+        <div class="paper-why">📌 Why read it: The idea of adversarial training is foundational. Short paper (~9 pages). Very readable.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/1406.2661" target="_blank">→ arxiv.org/abs/1406.2661</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2013</span>
+          <span class="paper-tag pt-foundational">Foundational</span>
+        </div>
+        <div class="paper-name">Auto-Encoding Variational Bayes — Kingma & Welling</div>
+        <div class="paper-desc">Introduced VAEs — learning probabilistic latent representations. The math is dense but the concept is critical.</div>
+        <div class="paper-why">📌 Why read it: VAE's latent space concept is used directly in Stable Diffusion's architecture.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/1312.6114" target="_blank">→ arxiv.org/abs/1312.6114</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2018</span>
+          <span class="paper-tag pt-gan">GAN</span>
+        </div>
+        <div class="paper-name">A Style-Based Generator Architecture for GANs (StyleGAN) — Karras et al.</div>
+        <div class="paper-desc">Introduced disentangled style control, W-space, and adaptive instance normalization. Photorealistic face generation.</div>
+        <div class="paper-why">📌 Why read it: StyleGAN's concept of disentangled latent spaces directly influenced how diffusion model conditioning works.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/1812.04948" target="_blank">→ arxiv.org/abs/1812.04948</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2017</span>
+          <span class="paper-tag pt-attention">Attention</span>
+        </div>
+        <div class="paper-name">Attention Is All You Need — Vaswani et al.</div>
+        <div class="paper-desc">The Transformer paper. Introduced self-attention, multi-head attention, and positional encodings. Revolutionized all of AI.</div>
+        <div class="paper-why">📌 Why read it: Every modern generation model uses transformers. This is non-negotiable reading.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/1706.03762" target="_blank">→ arxiv.org/abs/1706.03762</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2021</span>
+          <span class="paper-tag pt-foundational">CLIP</span>
+        </div>
+        <div class="paper-name">Learning Transferable Visual Models From Natural Language (CLIP) — Radford et al.</div>
+        <div class="paper-desc">Trained image and text encoders together via contrastive learning on 400M image-text pairs. Enables text-to-image.</div>
+        <div class="paper-why">📌 Why read it: CLIP is the text-understanding backbone of Stable Diffusion, DALL·E 2, and most modern models.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/2103.00020" target="_blank">→ arxiv.org/abs/2103.00020</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2020</span>
+          <span class="paper-tag pt-diffusion">Diffusion</span>
+        </div>
+        <div class="paper-name">Denoising Diffusion Probabilistic Models (DDPM) — Ho et al.</div>
+        <div class="paper-desc">The paper that made diffusion models practical. Simplified the training objective to just predict the noise added to an image.</div>
+        <div class="paper-why">📌 Why read it: This is THE paper. Everything in modern image generation descends from this. Read it twice.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/2006.11239" target="_blank">→ arxiv.org/abs/2006.11239</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2020</span>
+          <span class="paper-tag pt-diffusion">Diffusion</span>
+        </div>
+        <div class="paper-name">Denoising Diffusion Implicit Models (DDIM) — Song et al.</div>
+        <div class="paper-desc">Non-Markovian diffusion process that enables deterministic sampling in far fewer steps (50 instead of 1000).</div>
+        <div class="paper-why">📌 Why read it: Practical diffusion models use DDIM-style sampling. You'll configure this constantly.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/2010.02502" target="_blank">→ arxiv.org/abs/2010.02502</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2022</span>
+          <span class="paper-tag pt-diffusion">LDM</span>
+        </div>
+        <div class="paper-name">High-Resolution Image Synthesis with Latent Diffusion Models — Rombach et al.</div>
+        <div class="paper-desc">Stable Diffusion's architecture. Moves diffusion into a compressed latent space using a pre-trained VAE. Huge efficiency gain.</div>
+        <div class="paper-why">📌 Why read it: This IS Stable Diffusion. Understanding this paper means you understand how SD1.5, SD2, SDXL work.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/2112.10752" target="_blank">→ arxiv.org/abs/2112.10752</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2023</span>
+          <span class="paper-tag pt-diffusion">Control</span>
+        </div>
+        <div class="paper-name">Adding Conditional Control to Text-to-Image Diffusion Models (ControlNet) — Zhang & Agrawala</div>
+        <div class="paper-desc">Adds spatial conditioning (edge maps, depth, pose) by copying encoder weights into a trainable copy with zero-conv layers.</div>
+        <div class="paper-why">📌 Why read it: ControlNet is everywhere in practical applications. The architecture idea is elegant and widely reused.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/2302.05543" target="_blank">→ arxiv.org/abs/2302.05543</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2022</span>
+          <span class="paper-tag pt-diffusion">Personalization</span>
+        </div>
+        <div class="paper-name">DreamBooth — Ruiz et al.</div>
+        <div class="paper-desc">Fine-tune a diffusion model on 3-5 images of a subject using a unique identifier token. Teaches the model a new "concept."</div>
+        <div class="paper-why">📌 Why read it: Foundation of model personalization — your face, your dog, your product in any style.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/2208.12242" target="_blank">→ arxiv.org/abs/2208.12242</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2022</span>
+          <span class="paper-tag pt-video">Video</span>
+        </div>
+        <div class="paper-name">Video Diffusion Models — Ho et al.</div>
+        <div class="paper-desc">Extends image diffusion to video with a 3D U-Net (joint spatial-temporal attention). First strong diffusion-based video results.</div>
+        <div class="paper-why">📌 Why read it: Gateway into video generation research — all later video models reference this.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/2204.03458" target="_blank">→ arxiv.org/abs/2204.03458</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2022</span>
+          <span class="paper-tag pt-attention">DiT</span>
+        </div>
+        <div class="paper-name">Scalable Diffusion Models with Transformers (DiT) — Peebles & Xie</div>
+        <div class="paper-desc">Replaces the U-Net backbone in diffusion models with a Vision Transformer. Scales better, powers Sora and SD3.</div>
+        <div class="paper-why">📌 Why read it: DiT is the future architecture. Sora, Stable Diffusion 3, most frontier models use this design.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/2212.09748" target="_blank">→ arxiv.org/abs/2212.09748</a>
+      </div>
+
+      <div class="paper-item">
+        <div class="paper-meta">
+          <span class="paper-year">2023</span>
+          <span class="paper-tag pt-diffusion">Speed</span>
+        </div>
+        <div class="paper-name">Consistency Models — Song et al.</div>
+        <div class="paper-desc">Train models to generate high-quality images in a single step by enforcing consistency along diffusion trajectories.</div>
+        <div class="paper-why">📌 Why read it: The direction the field is heading — single-step generation without quality loss.</div>
+        <a class="paper-link" href="https://arxiv.org/abs/2303.01469" target="_blank">→ arxiv.org/abs/2303.01469</a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section class="projects-section">
+    <h2 class="section-title">🛠️ Projects — Build as You Learn</h2>
+    <p class="section-subtitle">// Concrete things to build at each stage. Theory without building is nothing.</p>
+
+    <div class="project-card">
+      <div class="proj-num">01</div>
+      <div>
+        <div class="proj-title">Digit Generator with VAE</div>
+        <div class="proj-desc">Train a Variational Autoencoder on MNIST. Interpolate between digits in latent space. Visualize the latent manifold with t-SNE.</div>
+        <div class="proj-tags"><span class="proj-tag">PyTorch</span><span class="proj-tag">VAE</span><span class="proj-tag">MNIST</span></div>
+      </div>
+      <div class="proj-difficulty diff-beginner">Beginner</div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-num">02</div>
+      <div>
+        <div class="proj-title">DCGAN for Face Generation</div>
+        <div class="proj-desc">Train a Deep Convolutional GAN on CelebA or Anime Faces dataset. Learn about training stability, mode collapse, and discriminator balancing.</div>
+        <div class="proj-tags"><span class="proj-tag">PyTorch</span><span class="proj-tag">GAN</span><span class="proj-tag">CelebA</span></div>
+      </div>
+      <div class="proj-difficulty diff-beginner">Beginner</div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-num">03</div>
+      <div>
+        <div class="proj-title">Unconditional DDPM from Scratch</div>
+        <div class="proj-desc">Implement DDPM on CIFAR-10 or MNIST following the original paper. Build the noise scheduler, U-Net, training loop, and sampling loop yourself.</div>
+        <div class="proj-tags"><span class="proj-tag">PyTorch</span><span class="proj-tag">Diffusion</span><span class="proj-tag">CIFAR-10</span></div>
+      </div>
+      <div class="proj-difficulty diff-intermediate">Intermediate</div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-num">04</div>
+      <div>
+        <div class="proj-title">Build a Text-to-Image App with Stable Diffusion</div>
+        <div class="proj-desc">Use Hugging Face diffusers to build a web app (Gradio or Streamlit) that generates images from text. Experiment with CFG scale, samplers, seeds, negative prompts.</div>
+        <div class="proj-tags"><span class="proj-tag">Diffusers</span><span class="proj-tag">Gradio</span><span class="proj-tag">Stable Diffusion</span></div>
+      </div>
+      <div class="proj-difficulty diff-intermediate">Intermediate</div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-num">05</div>
+      <div>
+        <div class="proj-title">Fine-tune SD with DreamBooth on Custom Subject</div>
+        <div class="proj-desc">Take 5-10 photos of yourself (or an object), fine-tune Stable Diffusion with DreamBooth, then generate yourself in various artistic styles.</div>
+        <div class="proj-tags"><span class="proj-tag">DreamBooth</span><span class="proj-tag">Fine-tuning</span><span class="proj-tag">LoRA</span></div>
+      </div>
+      <div class="proj-difficulty diff-intermediate">Intermediate</div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-num">06</div>
+      <div>
+        <div class="proj-title">Image-to-Image Pipeline with ControlNet</div>
+        <div class="proj-desc">Build a pipeline that takes a sketch or edge map and generates a full image. Try canny edge, depth map, and human pose conditioning.</div>
+        <div class="proj-tags"><span class="proj-tag">ControlNet</span><span class="proj-tag">Diffusers</span><span class="proj-tag">OpenCV</span></div>
+      </div>
+      <div class="proj-difficulty diff-intermediate">Intermediate</div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-num">07</div>
+      <div>
+        <div class="proj-title">Video Interpolation with Diffusion</div>
+        <div class="proj-desc">Use a pre-trained video diffusion model (like AnimateDiff or SVD) to generate short video clips from images. Build a Gradio interface. Analyze temporal coherence.</div>
+        <div class="proj-tags"><span class="proj-tag">AnimateDiff</span><span class="proj-tag">SVD</span><span class="proj-tag">Video</span></div>
+      </div>
+      <div class="proj-difficulty diff-advanced">Advanced</div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-num">08</div>
+      <div>
+        <div class="proj-title">Train a Mini DiT Diffusion Transformer</div>
+        <div class="proj-desc">Implement a small-scale DiT architecture from the paper. Train on a simple dataset (flowers, icons). Compare quality and compute vs U-Net baseline.</div>
+        <div class="proj-tags"><span class="proj-tag">DiT</span><span class="proj-tag">Transformers</span><span class="proj-tag">Research</span></div>
+      </div>
+      <div class="proj-difficulty diff-expert">Expert</div>
+    </div>
+
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TOOLS -->
+  <section class="tools-section">
+    <h2 class="section-title">🧰 Tools & Libraries</h2>
+    <p class="section-subtitle">// Your complete toolkit</p>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-emoji">🔥</div>
+        <div class="tool-name">PyTorch</div>
+        <div class="tool-desc">Primary deep learning framework. Research standard.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">🤗</div>
+        <div class="tool-name">Hugging Face</div>
+        <div class="tool-desc">diffusers + transformers libraries. Hub for models.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">🖥️</div>
+        <div class="tool-name">Google Colab</div>
+        <div class="tool-desc">Free GPU for training small models. Start here.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">⚡</div>
+        <div class="tool-name">Lambda Labs</div>
+        <div class="tool-desc">Affordable GPU cloud for bigger training runs.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">📊</div>
+        <div class="tool-name">Weights & Biases</div>
+        <div class="tool-desc">Experiment tracking, loss curves, model comparison.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">🎛️</div>
+        <div class="tool-name">Gradio</div>
+        <div class="tool-desc">Build demo UIs for your models in minutes.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">🐙</div>
+        <div class="tool-name">GitHub</div>
+        <div class="tool-desc">Version control. Clone research repos. Share work.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">📦</div>
+        <div class="tool-name">AUTOMATIC1111</div>
+        <div class="tool-desc">Local SD WebUI. Experiment with models easily.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">🎨</div>
+        <div class="tool-name">ComfyUI</div>
+        <div class="tool-desc">Node-based SD interface. Great for complex workflows.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FINAL TIP -->
+  <div class="tip-box" style="background: rgba(167,139,250,0.05); border-color: rgba(167,139,250,0.3); margin-bottom: 60px;">
+    <strong style="color: var(--accent2);">🧭 The Most Important Advice</strong>
+    Don't wait until you "know enough" to start building. Pick a project from Phase 1 and start now, even if you don't understand everything. The confusion you feel when building is what forces real understanding. Read papers alongside building — you'll absorb them 10x faster when you have context from your own experiments. The goal isn't to finish this roadmap — it's to become someone who ships real generative AI projects and reads research every week.
+  </div>
+
+  <footer>
+    Image & Video Generation AI — Complete Roadmap &nbsp;|&nbsp; 2024–2026 &nbsp;|&nbsp; Zero to Research
+  </footer>
+
+</div>
+
+</body>
+</html>
